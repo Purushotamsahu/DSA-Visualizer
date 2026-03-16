@@ -55,44 +55,57 @@ app.use((req, res, next) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
 
+// Health Check
+app.get('/', (req, res) => {
+  res.json({ 
+    status: 'online', 
+    message: 'DSA Visualizer API is running',
+    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+  });
+});
+
 // Admin Route to see user count
 app.get('/api/admin/stats', async (req, res) => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({ message: 'Database connection is not ready' });
+    }
     const userCount = await User.countDocuments();
     res.json({ userCount });
   } catch (error) {
+    logToFile(`ERROR fetching stats: ${error.message}`);
     res.status(500).json({ message: 'Error fetching stats' });
   }
 });
 
 // Database Connection
-if (!process.env.MONGODB_URI) {
-  logToFile('FATAL ERROR: MONGODB_URI is not defined in .env file');
-  process.exit(1);
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  logToFile('WARNING: MONGODB_URI is not defined in environment variables');
+  console.warn('WARNING: MONGODB_URI is missing. Database features will fail.');
+} else {
+  logToFile(`Attempting to connect to MongoDB...`);
+  mongoose.connect(MONGODB_URI)
+    .then(() => {
+      logToFile('Successfully connected to MongoDB');
+      console.log('Successfully connected to MongoDB');
+    })
+    .catch(err => {
+      logToFile('CRITICAL: MongoDB connection failed!');
+      logToFile(err.message);
+      console.error('CRITICAL: MongoDB connection failed!', err.message);
+    });
 }
 
-logToFile(`Attempting to connect to MongoDB: ${process.env.MONGODB_URI}`);
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => {
-    logToFile('Successfully connected to MongoDB');
-    console.log('Successfully connected to MongoDB');
-    const PORT = process.env.PORT || 8888;
-    const server = app.listen(PORT, '0.0.0.0', () => {
-      logToFile(`Server running on https://dsa-visualizer-h9zi.vercel.app`);
-      console.log(`Server running on https://dsa-visualizer-h9zi.vercel.app`);
-    });
+const PORT = process.env.PORT || 8888;
+const server = app.listen(PORT, '0.0.0.0', () => {
+  logToFile(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
+});
 
-    server.on('error', (err) => {
-      logToFile(`SERVER BIND ERROR: ${err.message}`);
-      if (err.code === 'EADDRINUSE') {
-        logToFile(`Port ${PORT} is already in use. Try a different port.`);
-      }
-    });
-  })
-  .catch(err => {
-    logToFile('CRITICAL: MongoDB connection failed!');
-    logToFile(err.message);
-    logToFile(err.stack);
-    console.error('CRITICAL: MongoDB connection failed!');
-    console.error(err);
-  });
+server.on('error', (err) => {
+  logToFile(`SERVER BIND ERROR: ${err.message}`);
+});
+
+module.exports = app;

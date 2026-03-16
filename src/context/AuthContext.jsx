@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const response = await fetch('http://127.0.0.1:8888/api/auth/me', {
+          const response = await fetch('https://dsa-visualizer-h9zi.vercel.app/api/auth/me', {
             headers: {
               'Authorization': `Bearer ${token}`
             }
@@ -36,9 +36,9 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     // Special check for Admin credentials
     if (email === 'admin@dsavisualizer.com' && password === 'admin123') {
-      const adminUser = { 
-        email, 
-        name: 'Admin User', 
+      const adminUser = {
+        email,
+        name: 'Admin User',
         role: 'admin',
         id: 'admin-001'
       };
@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
-      
+
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem('token', data.token);
@@ -70,12 +70,12 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (name, email, password) => {
     try {
-      const response = await fetch('http://127.0.0.1:8888/api/auth/signup', {
+      const response = await fetch('https://dsa-visualizer-h9zi.vercel.app/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password })
       });
-      
+
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem('token', data.token);

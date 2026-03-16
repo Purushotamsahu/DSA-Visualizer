@@ -74,8 +74,8 @@ mongoose.connect(process.env.MONGODB_URI)
     console.log('Successfully connected to MongoDB');
     const PORT = process.env.PORT || 8888;
     const server = app.listen(PORT, '0.0.0.0', () => {
-      logToFile(`Server running on http://127.0.0.1:${PORT}`);
-      console.log(`Server running on http://127.0.0.1:${PORT}`);
+      logToFile(`Server running on https://dsa-visualizer-h9zi.vercel.app`);
+      console.log(`Server running on https://dsa-visualizer-h9zi.vercel.app`);
     });
 
     server.on('error', (err) => {

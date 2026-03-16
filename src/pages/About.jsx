@@ -5,7 +5,7 @@ const About = () => {
   const [userCount, setUserCount] = React.useState(0);
 
   React.useEffect(() => {
-    fetch('http://127.0.0.1:8888/api/admin/stats')
+    fetch('https://dsa-visualizer-h9zi.vercel.app/api/admin/stats')
       .then(res => res.json())
       .then(data => setUserCount(data.userCount))
       .catch(err => console.error('Failed to fetch stats', err));

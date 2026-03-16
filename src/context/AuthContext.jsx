@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     try {
-      const response = await fetch('http://127.0.0.1:8888/api/auth/login', {
+      const response = await fetch('https://dsa-visualizer-h9zi.vercel.app/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })

@@ -40,7 +40,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: '*',
+  origin: 'https://dsa-visualizer-eight-liard.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));

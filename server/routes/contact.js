@@ -1,17 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
-const fs = require('fs');
-const path = require('path');
 
-const logFile = path.join(__dirname, '../server_debug.log');
 const logToFile = (msg) => {
   const timestamp = new Date().toISOString();
-  try {
-    fs.appendFileSync(logFile, `[CONTACT_ROUTE][${timestamp}] ${msg}\n`);
-  } catch (err) {
-    console.error('Logging failed:', err);
-  }
+  console.log(`[CONTACT_ROUTE][${timestamp}] ${msg}`);
 };
 
 // Contact Route

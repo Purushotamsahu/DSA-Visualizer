@@ -1,12 +1,9 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const fs = require('fs');
-const path = require('path');
 
-const logFile = path.join(__dirname, '../server_debug.log');
 const logToFile = (msg) => {
   const timestamp = new Date().toISOString();
-  fs.appendFileSync(logFile, `[USER_MODEL][${timestamp}] ${msg}\n`);
+  console.log(`[USER_MODEL][${timestamp}] ${msg}`);
 };
 
 const userSchema = new mongoose.Schema({

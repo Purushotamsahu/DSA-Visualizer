@@ -2,13 +2,10 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const fs = require('fs');
-const path = require('path');
 
-const logFile = path.join(__dirname, '../server_debug.log');
 const logToFile = (msg) => {
   const timestamp = new Date().toISOString();
-  fs.appendFileSync(logFile, `[${timestamp}] ${msg}\n`);
+  console.log(`[AUTH_ROUTE][${timestamp}] ${msg}`);
 };
 
 // Signup Route

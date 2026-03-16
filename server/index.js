@@ -2,19 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const fs = require('fs');
 const path = require('path');
 
 dotenv.config({ override: true });
 
-const logFile = path.join(__dirname, 'server_debug.log');
 const logToFile = (msg) => {
   const timestamp = new Date().toISOString();
-  try {
-    fs.appendFileSync(logFile, `[${timestamp}] ${msg}\n`);
-  } catch (err) {
-    console.error('Logging failed:', err);
-  }
+  console.log(`[${timestamp}] ${msg}`);
 };
 
 // Catch unhandled errors early

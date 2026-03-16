@@ -1,11 +1,12 @@
 import React from 'react';
 import { Info, Target, Activity, Code2, Rocket, Coffee, Github, Linkedin, MessageSquare, ShieldCheck, Heart } from 'lucide-react';
+import { API_ENDPOINTS } from '../utils/apiConfig';
 
 const About = () => {
   const [userCount, setUserCount] = React.useState(0);
 
   React.useEffect(() => {
-    fetch('https://dsa-visualizer-h9zi.vercel.app/api/admin/stats')
+    fetch(API_ENDPOINTS.ADMIN.STATS)
       .then(res => res.json())
       .then(data => setUserCount(data.userCount))
       .catch(err => console.error('Failed to fetch stats', err));

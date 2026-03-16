@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Github, Linkedin, MessageSquare, Send, Phone, MapPin, ExternalLink, CheckCircle, AlertCircle } from 'lucide-react';
+import { API_ENDPOINTS } from '../utils/apiConfig';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -21,7 +22,7 @@ const Contact = () => {
     setStatus({ type: '', message: '' });
 
     try {
-      const response = await fetch('https://dsa-visualizer-h9zi.vercel.app/api/contact', {
+      const response = await fetch(API_ENDPOINTS.CONTACT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

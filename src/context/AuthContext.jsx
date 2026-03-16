@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
+import { API_ENDPOINTS } from '../utils/apiConfig';
 
 const AuthContext = createContext();
 
@@ -12,7 +13,7 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const response = await fetch('https://dsa-visualizer-h9zi.vercel.app/api/auth/me', {
+          const response = await fetch(API_ENDPOINTS.AUTH.ME, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
@@ -48,7 +49,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     try {
-      const response = await fetch('https://dsa-visualizer-h9zi.vercel.app/api/auth/login', {
+      const response = await fetch(API_ENDPOINTS.AUTH.LOGIN, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -70,7 +71,7 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (name, email, password) => {
     try {
-      const response = await fetch('https://dsa-visualizer-h9zi.vercel.app/api/auth/signup', {
+      const response = await fetch(API_ENDPOINTS.AUTH.SIGNUP, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password })

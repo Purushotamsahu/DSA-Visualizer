@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8888';
+const API_URL = import.meta.env.VITE_API_URL || 'https://dsa-visualizer-j771.vercel.app';
 
 export const API_ENDPOINTS = {
   AUTH: {
